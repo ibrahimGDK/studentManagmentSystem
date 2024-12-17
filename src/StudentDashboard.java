@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class StudentDashboard {
     private JFrame frame;
@@ -21,10 +22,12 @@ public class StudentDashboard {
         JButton selectCourseButton = new JButton("Ders Seç");
         JButton viewGradesButton = new JButton("Notları Görüntüle");
         JButton viewProfileButton = new JButton("Profil Görüntüle");
+        JButton viewSelectedCoursesButton = new JButton("Seçilen Dersleri Görüntüle");
 
         panel.add(selectCourseButton);
         panel.add(viewGradesButton);
         panel.add(viewProfileButton);
+        panel.add(viewSelectedCoursesButton);
 
         // Ders seçme butonuna tıklama
         selectCourseButton.addActionListener(new ActionListener() {
@@ -55,21 +58,45 @@ public class StudentDashboard {
     }
 
     private void selectCourse() {
-        // Ders seçme işlemi burada yapılacak (Öğrencinin ders seçmesi)
-        String courseName = JOptionPane.showInputDialog(frame, "Ders adı girin:");
-        System.out.println("Öğrenci " + courseName + " dersini seçti.");
+        // Ders adı için kullanıcıdan giriş al
+        String courseName = JOptionPane.showInputDialog(frame, "Seçmek istediğiniz dersin adını girin:");
+
+        if (courseName != null && !courseName.trim().isEmpty()) {
+            student.addCourse(courseName);
+            JOptionPane.showMessageDialog(frame, courseName + " dersi seçildi!", "Ders Seçimi", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(frame, "Geçersiz ders adı!", "Hata", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
+
+
     private void viewGrades() {
-        // Öğrencinin notlarını görüntülemesi
-        System.out.println("Öğrenci notlarını görüntülüyor...");
-        JOptionPane.showMessageDialog(frame, "Notlarınızı görüntülemek için burayı kullanabilirsiniz.");
+        HashMap<String, Integer> grades = student.getGrades();
+
+        if (grades==null) {
+            JOptionPane.showMessageDialog(frame, "Henüz notunuz bulunmamaktadır.", "Notlar", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Notları göstermek için StringBuilder kullanıyoruz
+        StringBuilder gradesInfo = new StringBuilder("Dersler ve Notlar:\n");
+        for (String course : grades.keySet()) {
+            gradesInfo.append(course).append(": ").append(grades.get(course)).append("\n");
+        }
+
+        // JOptionPane ile notları göster
+        JOptionPane.showMessageDialog(frame, gradesInfo.toString(), "Notlar", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
     private void viewProfile() {
         // Öğrencinin profilini görüntülemesi
-        System.out.println("Öğrenci profili görüntüleniyor...");
-        JOptionPane.showMessageDialog(frame, "Profilinizi görüntülemek için burayı kullanabilirsiniz.");
+        String profileInfo = "Kullanıcı Adı: " + student.getUsername() + "\n" +
+                "Rol: " + student.getRole();
+
+        // Profil bilgilerini JOptionPane ile göster
+        JOptionPane.showMessageDialog(frame, profileInfo, "Profil Bilgileri", JOptionPane.INFORMATION_MESSAGE);
     }
 }
 
