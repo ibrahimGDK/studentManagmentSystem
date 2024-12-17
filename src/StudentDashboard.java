@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StudentDashboard {
@@ -29,6 +30,18 @@ public class StudentDashboard {
         panel.add(viewProfileButton);
         panel.add(viewSelectedCoursesButton);
 
+
+
+
+        viewSelectedCoursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewSelectedCourses();
+            }
+        });
+
+
+
         // Ders seçme butonuna tıklama
         selectCourseButton.addActionListener(new ActionListener() {
             @Override
@@ -55,6 +68,20 @@ public class StudentDashboard {
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
+    }
+
+    private void viewSelectedCourses() {
+        ArrayList<String> courses = student.getSelectedCourses();
+
+        if (courses.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Henüz ders seçmediniz.", "Seçilen Dersler", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            StringBuilder courseList = new StringBuilder("Seçilen Dersler:\n");
+            for (String course : courses) {
+                courseList.append(course).append("\n");
+            }
+            JOptionPane.showMessageDialog(frame, courseList.toString(), "Seçilen Dersler", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void selectCourse() {
