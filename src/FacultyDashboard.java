@@ -22,10 +22,19 @@ public class FacultyDashboard {
         JButton approveCourseButton = new JButton("Ders Onayı");
         JButton viewCoursesButton = new JButton("Dersleri Görüntüle");
         JButton viewProfileButton = new JButton("Profil Görüntüle");
+        JButton addGradeButton = new JButton("Not Ekle");
 
         panel.add(approveCourseButton);
         panel.add(viewCoursesButton);
         panel.add(viewProfileButton);
+        panel.add(addGradeButton);
+
+        addGradeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGrade();
+            }
+        });
 
         // Ders onaylama butonuna tıklama
         approveCourseButton.addActionListener(new ActionListener() {
@@ -111,4 +120,48 @@ public class FacultyDashboard {
         // Profil bilgilerini JOptionPane ile göster
         JOptionPane.showMessageDialog(frame, profileInfo, "Profil Bilgileri", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    private void addGrade() {
+        // Öğrenci adı iste
+        String studentUsername = JOptionPane.showInputDialog(frame, "Not eklemek istediğiniz öğrencinin kullanıcı adını girin:");
+        if (studentUsername == null || studentUsername.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Geçersiz kullanıcı adı!", "Hata", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Öğrenci var mı kontrol et
+        Student student = Database.getStudentByUsername(studentUsername);
+        if (student == null) {
+            JOptionPane.showMessageDialog(frame, "Bu kullanıcı adıyla bir öğrenci bulunamadı.", "Hata", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Ders adı iste
+        String courseName = JOptionPane.showInputDialog(frame, "Not eklemek istediğiniz dersin adını girin:");
+        if (courseName == null || courseName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Geçersiz ders adı!", "Hata", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Dersin öğrenci tarafından seçilip seçilmediğini kontrol et
+        boolean courseExists = student.getSelectedCourses().stream()
+                .anyMatch(course -> course.getCourseName().equalsIgnoreCase(courseName));
+        if (!courseExists) {
+            JOptionPane.showMessageDialog(frame, "Bu öğrenci bu dersi seçmemiş.", "Hata", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Not iste
+        String gradeStr = JOptionPane.showInputDialog(frame, "Notu girin:");
+        try {
+            int grade = Integer.parseInt(gradeStr);
+
+            // Notu ekle
+            student.addGrade(courseName, grade);
+            JOptionPane.showMessageDialog(frame, "Not başarıyla eklendi.", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame, "Geçersiz not formatı!", "Hata", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
