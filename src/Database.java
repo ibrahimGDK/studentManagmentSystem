@@ -28,4 +28,13 @@ public class Database {
     public static User getUser(String username) {
         return users.get(username);  // Burada kullanıcı tipine göre User (Öğrenci, Öğretim Üyesi, Personel) döndürülür.
     }
+
+    // Öğrenci adıyla öğrenci nesnesini döndürme
+    public static Student getStudentByUsername(String username) {
+        User user = users.get(username);
+        if (user instanceof Student) {
+            return (Student) user;  // Eğer kullanıcı bir öğrenci ise, geri döndür
+        }
+        return null;  // Öğrenci bulunamadıysa null döndür
+    }
 }

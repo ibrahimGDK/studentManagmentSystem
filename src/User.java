@@ -17,6 +17,10 @@ public abstract class User implements UserActions {
         return password;
     }
 
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
     public abstract String getRole();
 
 

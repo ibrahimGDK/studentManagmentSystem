@@ -83,7 +83,7 @@ public class LoginScreen {
             // Personel ekranı
             new StaffDashboard((Staff) user);
         }
-        frame.dispose();  // Login ekranını kapat
+        //frame.dispose();  // Login ekranını kapat
     }
 
     public static void main(String[] args) {

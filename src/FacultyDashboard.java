@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class FacultyDashboard {
     private JFrame frame;
@@ -55,21 +56,59 @@ public class FacultyDashboard {
     }
 
     private void approveCourse() {
-        // Ders onaylama işlemi
-        String courseName = JOptionPane.showInputDialog(frame, "Onaylamak istediğiniz dersin adı:");
-        System.out.println("Öğretim üyesi " + courseName + " dersini onayladı.");
+        // Öğretim üyesinin öğrenci seçmesi
+        String studentUsername = JOptionPane.showInputDialog(frame, "Ders onaylamak istediğiniz öğrencinin kullanıcı adını girin:");
+
+        if (studentUsername != null && !studentUsername.trim().isEmpty()) {
+            Student student = Database.getStudentByUsername(studentUsername); // Öğrenciyi veritabanından al
+            if (student != null) {
+                // Öğrencinin derslerini görüntüle
+                ArrayList<Course> selectedCourses = student.getSelectedCourses();
+                StringBuilder courseList = new StringBuilder("Onaylamak istediğiniz dersler:\n");
+
+                for (Course course : selectedCourses) {
+                    courseList.append(course.getCourseName()).append(" - ")
+                            .append(course.isApproved() ? "Onaylı" : "Onaysız").append("\n");
+                }
+
+                int result = JOptionPane.showConfirmDialog(frame, courseList.toString() + "\nDersleri onaylamak istiyor musunuz?",
+                        "Ders Onayı", JOptionPane.YES_NO_OPTION);
+
+                if (result == JOptionPane.YES_OPTION) {
+                    for (Course course : selectedCourses) {
+                        if (!course.isApproved()) {
+                            course.approve(); // Ders onaylanıyor
+                            JOptionPane.showMessageDialog(frame, course.getCourseName() + " dersi onaylandı!");
+                        }
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Böyle bir öğrenci bulunamadı!", "Hata", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void viewCourses() {
         // Öğretim üyesi derslerini görüntüler
-        System.out.println("Öğretim üyesi derslerini görüntülüyor...");
-        JOptionPane.showMessageDialog(frame, "Derslerinizi görüntülemek için burayı kullanabilirsiniz.");
+        ArrayList<Course> facultyCourses = faculty.getCourses();
+
+        if (facultyCourses.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Öğretim üyesinin dersleri bulunmamaktadır.", "Dersler", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            StringBuilder coursesInfo = new StringBuilder("Öğretim Üyesi Dersleri:\n");
+            for (Course course : facultyCourses) {
+                coursesInfo.append(course.getCourseName()).append("\n");
+            }
+            JOptionPane.showMessageDialog(frame, coursesInfo.toString(), "Dersler", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void viewProfile() {
         // Öğretim üyesinin profilini görüntüler
-        System.out.println("Öğretim üyesi profili görüntüleniyor...");
-        JOptionPane.showMessageDialog(frame, "Profilinizi görüntülemek için burayı kullanabilirsiniz.");
+        String profileInfo = "Kullanıcı Adı: " + faculty.getUsername() + "\n" +
+                "Rol: " + faculty.getRole();
+
+        // Profil bilgilerini JOptionPane ile göster
+        JOptionPane.showMessageDialog(frame, profileInfo, "Profil Bilgileri", JOptionPane.INFORMATION_MESSAGE);
     }
 }
-
