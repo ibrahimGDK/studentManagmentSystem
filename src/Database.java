@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Database {
@@ -37,4 +39,41 @@ public class Database {
         }
         return null;  // Öğrenci bulunamadıysa null döndür
     }
+
+    // Öğrencileri alma işlemi
+    public static List<Student> getAllStudents() {
+        List<Student> students = new ArrayList<>();
+        for (User user : users.values()) {
+            if (user instanceof Student) {
+                students.add((Student) user);
+            }
+        }
+        return students;
+    }
+
+    // Öğrenci ekleme işlemi
+    public static boolean addStudent(String username, String password) {
+        if (userCredentials.containsKey(username)) {
+            return false;  // Eğer kullanıcı adı zaten varsa, öğrenci eklenemez
+        }
+
+        // Yeni öğrenci oluşturuluyor ve kullanıcı listesine ekleniyor
+        Student newStudent = new Student(username, password);
+        users.put(username, newStudent);
+        userCredentials.put(username, password);  // Şifre de ekleniyor
+        return true;
+    }
+
+    // Öğrenci silme işlemi
+    public static boolean removeStudent(String username) {
+        if (!userCredentials.containsKey(username)) {
+            return false;  // Eğer kullanıcı adı yoksa, silme işlemi başarısız olur
+        }
+
+        // Öğrenci veritabanından siliniyor
+        userCredentials.remove(username);
+        users.remove(username);
+        return true;  // Silme başarılı
+    }
+
 }
