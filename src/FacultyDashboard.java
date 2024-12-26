@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FacultyDashboard {
     private JFrame frame;
@@ -13,7 +14,7 @@ public class FacultyDashboard {
 
         frame = new JFrame(faculty.getUsername() + " - Öğretim Üyesi Paneli");
         frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
@@ -98,19 +99,38 @@ public class FacultyDashboard {
     }
 
     private void viewCourses() {
-        // Öğretim üyesi derslerini görüntüler
-        ArrayList<Course> facultyCourses = faculty.getCourses();
+        List<Course> courses = Database.getCourseList();
 
-        if (facultyCourses.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Öğretim üyesinin dersleri bulunmamaktadır.", "Dersler", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            StringBuilder coursesInfo = new StringBuilder("Öğretim Üyesi Dersleri:\n");
-            for (Course course : facultyCourses) {
-                coursesInfo.append(course.getCourseName()).append("\n");
-            }
-            JOptionPane.showMessageDialog(frame, coursesInfo.toString(), "Dersler", JOptionPane.INFORMATION_MESSAGE);
+        if (courses.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Mevcut ders bulunamadı.", "Bilgilendirme", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
+
+        // Ders bilgilerini JTextArea'da görüntüle
+        JTextArea courseInfoArea = new JTextArea();
+        courseInfoArea.setEditable(false); // Kullanıcı düzenleyemesin
+        StringBuilder courseInfo = new StringBuilder();
+
+        for (Course course : courses) {
+            courseInfo.append("Ders Adı: ").append(course.getCourseName())
+                    .append("\nDers Kodu: ").append(course.getCourseCode())
+                    .append("\n\n");
+        }
+
+        courseInfoArea.setText(courseInfo.toString());
+
+        // Ders bilgilerini bir JScrollPane içinde göster
+        JScrollPane scrollPane = new JScrollPane(courseInfoArea);
+        scrollPane.setPreferredSize(new Dimension(350, 200));
+
+        JOptionPane.showMessageDialog(
+                frame,
+                scrollPane,
+                "Mevcut Dersler",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
+
 
     private void viewProfile() {
         // Öğretim üyesinin profilini görüntüler

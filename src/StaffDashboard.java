@@ -13,7 +13,7 @@ public class StaffDashboard {
 
         frame = new JFrame(staff.getUsername() + " - Personel Paneli");
         frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();

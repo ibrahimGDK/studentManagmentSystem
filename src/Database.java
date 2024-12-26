@@ -7,6 +7,7 @@ public class Database {
     // Örnek kullanıcı verileri: Kullanıcı adı, şifre ve rol bilgileri
     private static Map<String, String> userCredentials = new HashMap<>();
     private static Map<String, User> users = new HashMap<>();
+    private static List<Course> courseList = new ArrayList<>();
 
     static {
         // İlk başta manuel olarak bazı kullanıcıları ekleyelim
@@ -18,6 +19,16 @@ public class Database {
         users.put("ogrenci1", new Student("ogrenci1", "password123"));
         users.put("ogretim1", new Faculty("ogretim1", "password456"));
         users.put("personel1", new Staff("personel1", "password789"));
+
+        // Dersler
+        courseList.add(new Course("Nesneye Yönelik Programlama", "BIMU2007"));
+        courseList.add(new Course("Devreler ve Sistemler", "BIMU2058"));
+        courseList.add(new Course("Veri Yapıları", "BIMU2057"));
+        courseList.add(new Course("Lojik Devre Tasarımı", "BIMU2005"));
+    }
+
+    public static List<Course> getCourseList() {
+        return courseList;
     }
 
     // Kullanıcı doğrulama işlemi: Kullanıcı adı ve şifreyi kontrol eder

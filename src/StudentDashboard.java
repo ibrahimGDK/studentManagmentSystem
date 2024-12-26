@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class StudentDashboard {
     private JFrame frame;
@@ -14,7 +15,7 @@ public class StudentDashboard {
 
         frame = new JFrame(student.getUsername() + " - Öğrenci Paneli");
         frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
@@ -80,19 +81,43 @@ public class StudentDashboard {
     }
 
     private void selectCourse() {
-        // Ders adı için kullanıcıdan giriş al
-        String courseName = JOptionPane.showInputDialog(frame, "Seçmek istediğiniz dersin adını girin:");
-        String courseCode = JOptionPane.showInputDialog(frame, "Seçmek istediğiniz dersin kodunu girin:");  // Ders kodunu almak
+        // Mevcut dersleri getir
+        List<Course> courses = Database.getCourseList();
 
-        if (courseName != null && !courseName.trim().isEmpty() && courseCode != null && !courseCode.trim().isEmpty()) {
-            // Course sınıfını iki parametre ile yarat
-            Course course = new Course(courseName, courseCode);  // Artık courseCode parametresi de geçiyoruz
-            student.addCourse(course);  // Öğrenciye ders ekleniyor
-            JOptionPane.showMessageDialog(frame, courseName + " dersi seçildi!", "Ders Seçimi", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(frame, "Geçersiz ders adı veya ders kodu!", "Hata", JOptionPane.ERROR_MESSAGE);
+        if (courses.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Mevcut ders bulunamadı.", "Hata", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // JComboBox oluştur ve ders isimlerini ekle
+        JComboBox<String> courseDropdown = new JComboBox<>();
+        for (Course course : courses) {
+            courseDropdown.addItem(course.getCourseName() + " (" + course.getCourseCode() + ")");
+        }
+
+        // Kullanıcıdan ders seçmesini iste
+        int option = JOptionPane.showConfirmDialog(
+                frame,
+                courseDropdown,
+                "Seçmek istediğiniz dersi seçin:",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        // Kullanıcı onaylarsa işlem yap
+        if (option == JOptionPane.OK_OPTION) {
+            int selectedIndex = courseDropdown.getSelectedIndex();
+            Course selectedCourse = courses.get(selectedIndex);
+
+            if (student.getSelectedCourses().contains(selectedCourse)) {
+                JOptionPane.showMessageDialog(frame, "Bu dersi zaten seçtiniz.", "Hata", JOptionPane.ERROR_MESSAGE);
+            } else {
+                student.addCourse(selectedCourse);
+                JOptionPane.showMessageDialog(frame, selectedCourse.getCourseName() + " dersi seçildi!", "Ders Seçimi", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
+
 
 
     private void viewGrades() {
