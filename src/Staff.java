@@ -20,7 +20,9 @@ public class Staff extends User implements AdminActions{
 
     @Override
     public void viewProfile() {
-
+        System.out.println("Profil Bilgileri:");
+        System.out.println("Kullanıcı Adı: " + getUsername());
+        System.out.println("Rol: " + getRole());
     }
 
     @Override
