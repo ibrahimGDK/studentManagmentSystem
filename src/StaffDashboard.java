@@ -12,18 +12,42 @@ public class StaffDashboard {
         this.staff = staff;
 
         frame = new JFrame(staff.getUsername() + " - Personel Paneli");
-        frame.setSize(400, 300);
+        frame.setSize(500, 400);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null); // Ekranın ortasına yerleştirme
 
+        // Başlık Paneli
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(70, 130, 180)); // SteelBlue renk
+        JLabel titleLabel = new JLabel("Personel Paneli");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        frame.add(titlePanel, BorderLayout.NORTH);
+
+        // Ana Panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1));
+        panel.setLayout(new GridLayout(5, 1, 10, 10)); // 5 satır, 1 sütun, bileşenler arasında boşluk
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50)); // Panel kenar boşlukları
 
         JButton addStudentButton = new JButton("Öğrenci Ekle");
         JButton removeStudentButton = new JButton("Öğrenci Sil");
         JButton viewAllStudentsButton = new JButton("Tüm Öğrencileri Görüntüle");
         JButton viewProfileButton = new JButton("Profil Görüntüle");
         JButton enterGradeButton = new JButton("Not Girişi");
+
+        // Buton Font ve Boyut Ayarları
+        Font buttonFont = new Font("Arial", Font.BOLD, 16);
+        Dimension buttonSize = new Dimension(200, 40);
+
+        for (JButton button : new JButton[]{addStudentButton, removeStudentButton, viewAllStudentsButton, viewProfileButton, enterGradeButton}) {
+            button.setFont(buttonFont);
+            button.setPreferredSize(buttonSize);
+            button.setFocusPainted(false);
+            button.setBackground(new Color(100, 149, 237)); // CornflowerBlue renk
+            button.setForeground(Color.WHITE);
+        }
 
 
 

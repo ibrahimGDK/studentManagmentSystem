@@ -12,23 +12,75 @@ public class FacultyDashboard {
     public FacultyDashboard(Faculty faculty) {
         this.faculty = faculty;
 
+        // Çerçeveyi oluştur ve ayarla
         frame = new JFrame(faculty.getUsername() + " - Öğretim Üyesi Paneli");
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);  // Ekran boyutunu büyüttük
+        frame.setLocationRelativeTo(null);  // Ortaya yerleştir
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
+        // Başlık Paneli
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(70, 130, 180));  // SteelBlue
+        JLabel titleLabel = new JLabel("Öğretim Üyesi Paneli");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        frame.add(titlePanel, BorderLayout.NORTH);
 
-        JButton approveCourseButton = new JButton("Ders Onayı");
-        JButton viewCoursesButton = new JButton("Dersleri Görüntüle");
-        JButton viewProfileButton = new JButton("Profil Görüntüle");
-        JButton addGradeButton = new JButton("Not Ekle");
+        // Ana Panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));  // Kenar boşlukları
+        mainPanel.setBackground(new Color(240, 248, 255));  // AliceBlue arka plan rengi
 
-        panel.add(approveCourseButton);
-        panel.add(viewCoursesButton);
-        panel.add(viewProfileButton);
-        panel.add(addGradeButton);
+        // GridBagConstraints ile butonları hizalayacağız
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);  // Bileşenler arası boşluk
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        // Ders Onayı Butonu
+        JButton approveCourseButton = createStyledButton("Ders Onayı");
+        mainPanel.add(approveCourseButton, gbc);
+
+        // Dersleri Görüntüle Butonu
+        gbc.gridy++;
+        JButton viewCoursesButton = createStyledButton("Dersleri Görüntüle");
+        mainPanel.add(viewCoursesButton, gbc);
+
+        // Profil Görüntüle Butonu
+        gbc.gridy++;
+        JButton viewProfileButton = createStyledButton("Profil Görüntüle");
+        mainPanel.add(viewProfileButton, gbc);
+
+        // Not Ekle Butonu
+        gbc.gridy++;
+        JButton addGradeButton = createStyledButton("Not Ekle");
+        mainPanel.add(addGradeButton, gbc);
+
+        // Buton Olayları
+        approveCourseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                approveCourse();
+            }
+        });
+
+        viewCoursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewCourses();
+            }
+        });
+
+        viewProfileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewProfile();
+            }
+        });
 
         addGradeButton.addActionListener(new ActionListener() {
             @Override
@@ -37,32 +89,18 @@ public class FacultyDashboard {
             }
         });
 
-        // Ders onaylama butonuna tıklama
-        approveCourseButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                approveCourse();
-            }
-        });
-
-        // Dersleri görüntüleme butonuna tıklama
-        viewCoursesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewCourses();
-            }
-        });
-
-        // Profil görüntüleme butonuna tıklama
-        viewProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewProfile();
-            }
-        });
-
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
+    }
+
+    // Butonları stilize eden yardımcı metod
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(new Color(100, 149, 237));  // CornflowerBlue
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        return button;
     }
 
     private void approveCourse() {
@@ -131,7 +169,6 @@ public class FacultyDashboard {
         );
     }
 
-
     private void viewProfile() {
         // Öğretim üyesinin profilini görüntüler
         String profileInfo = "Kullanıcı Adı: " + faculty.getUsername() + "\n" +
@@ -183,5 +220,4 @@ public class FacultyDashboard {
             JOptionPane.showMessageDialog(frame, "Geçersiz not formatı!", "Hata", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 }

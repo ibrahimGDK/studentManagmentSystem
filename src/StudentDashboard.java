@@ -13,31 +13,55 @@ public class StudentDashboard {
     public StudentDashboard(Student student) {
         this.student = student;
 
+        // Çerçeveyi oluştur ve ayarla
         frame = new JFrame(student.getUsername() + " - Öğrenci Paneli");
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);  // Ekran boyutunu büyüttük
+        frame.setLocationRelativeTo(null);  // Ortaya yerleştir
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
+        // Başlık Paneli
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(70, 130, 180));  // SteelBlue
+        JLabel titleLabel = new JLabel("Öğrenci Paneli");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        frame.add(titlePanel, BorderLayout.NORTH);
 
-        JButton selectCourseButton = new JButton("Ders Seç");
-        JButton viewGradesButton = new JButton("Notları Görüntüle");
-        JButton viewProfileButton = new JButton("Profil Görüntüle");
-        JButton viewSelectedCoursesButton = new JButton("Seçilen Dersleri Görüntüle");
+        // Ana Panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));  // Kenar boşlukları
+        mainPanel.setBackground(new Color(240, 248, 255));  // AliceBlue arka plan rengi
 
-        panel.add(selectCourseButton);
-        panel.add(viewGradesButton);
-        panel.add(viewProfileButton);
-        panel.add(viewSelectedCoursesButton);
+        // GridBagConstraints ile butonları hizalayacağız
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);  // Bileşenler arası boşluk
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
-        viewSelectedCoursesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewSelectedCourses();
-            }
-        });
+        // Ders Seç Butonu
+        JButton selectCourseButton = createStyledButton("Ders Seç");
+        mainPanel.add(selectCourseButton, gbc);
 
+        // Notları Görüntüle Butonu
+        gbc.gridy++;
+        JButton viewGradesButton = createStyledButton("Notları Görüntüle");
+        mainPanel.add(viewGradesButton, gbc);
+
+        // Profil Görüntüle Butonu
+        gbc.gridy++;
+        JButton viewProfileButton = createStyledButton("Profil Görüntüle");
+        mainPanel.add(viewProfileButton, gbc);
+
+        // Seçilen Dersleri Görüntüle Butonu
+        gbc.gridy++;
+        JButton viewSelectedCoursesButton = createStyledButton("Seçilen Dersleri Görüntüle");
+        mainPanel.add(viewSelectedCoursesButton, gbc);
+
+        // Buton Olayları
         selectCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,8 +83,25 @@ public class StudentDashboard {
             }
         });
 
-        frame.add(panel, BorderLayout.CENTER);
+        viewSelectedCoursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewSelectedCourses();
+            }
+        });
+
+        frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
+    }
+
+    // Butonları stilize eden yardımcı metod
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(new Color(100, 149, 237));  // CornflowerBlue
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        return button;
     }
 
     private void viewSelectedCourses() {
@@ -117,8 +158,6 @@ public class StudentDashboard {
             }
         }
     }
-
-
 
     private void viewGrades() {
         HashMap<String, Integer> grades = student.getGrades();

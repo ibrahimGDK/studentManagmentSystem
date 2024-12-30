@@ -12,38 +12,72 @@ public class LoginScreen {
 
     public LoginScreen() {
         frame = new JFrame("Öğrenci İşleri Otomasyonu - Giriş");
-        //frame.setSize(400, 300);
-        frame.setBounds(200,200,400,300);
+        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null); // Ekranın ortasına konumlandırma
 
-        // Panel for form fields
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2));
+        // Üst başlık paneli
+        JPanel titlePanel = new JPanel();
+        JLabel titleLabel = new JLabel("Giriş Yap");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titlePanel.add(titleLabel);
+        frame.add(titlePanel, BorderLayout.NORTH);
 
-        JLabel usernameLabel = new JLabel("Kullanıcı Adı: ");
-        usernameField = new JTextField();
-        JLabel passwordLabel = new JLabel("Şifre: ");
-        passwordField = new JPasswordField();
+        // Form alanları için panel
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Bileşenler arasındaki boşluklar
 
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
+        JLabel usernameLabel = new JLabel("Kullanıcı Adı:");
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        usernameField = new JTextField(15);
 
-        // Error label for incorrect credentials
+        JLabel passwordLabel = new JLabel("Şifre:");
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        passwordField = new JPasswordField(15);
+
         errorLabel = new JLabel();
         errorLabel.setForeground(Color.RED);
-        panel.add(errorLabel);
 
-        // Login button
+        // Kullanıcı adı
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        formPanel.add(usernameLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        formPanel.add(usernameField, gbc);
+
+        // Şifre
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        formPanel.add(passwordLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        formPanel.add(passwordField, gbc);
+
+        // Hata mesajı
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        formPanel.add(errorLabel, gbc);
+
+        frame.add(formPanel, BorderLayout.CENTER);
+
+        // Alt buton paneli
+        JPanel buttonPanel = new JPanel();
         loginButton = new JButton("Giriş Yap");
-        panel.add(loginButton);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        buttonPanel.add(loginButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add the panel to the frame
-        frame.add(panel, BorderLayout.CENTER);
-
-        // Action listener for the login button
+        // Buton eylemi
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,37 +92,26 @@ public class LoginScreen {
 
     // Login logic
     private void login(String username, String password) {
-        // Burada, kullanıcı doğrulama işlemi yapılacak (Database sınıfı ile)
         if (Database.isValidUser(username, password)) {
-            // Kullanıcı geçerli ise, ilgili kullanıcı türüne yönlendirilecek
             User user = Database.getUser(username);
             openDashboard(user);
+            //frame.dispose(); // Login ekranını kapat
         } else {
-            // Geçersiz giriş durumunda hata mesajı
             errorLabel.setText("Geçersiz kullanıcı adı veya şifre!");
         }
     }
 
-    // Kullanıcı türüne göre yönlendirme
-    // (Aşağıdaki kodda DOWNCAST vardır)
     private void openDashboard(User user) {
-        // Kullanıcı türüne göre ilgili ekran açılacak
         if (user.getRole().equals("Student")) {
-            // Öğrenci ekranı
             new StudentDashboard((Student) user);
         } else if (user.getRole().equals("Faculty")) {
-            // Öğretim Üyesi ekranı
             new FacultyDashboard((Faculty) user);
         } else if (user.getRole().equals("Staff")) {
-            // Personel ekranı
             new StaffDashboard((Staff) user);
         }
-        //frame.dispose();  // Login ekranını kapat
     }
 
     public static void main(String[] args) {
         new LoginScreen();
-
     }
 }
-
