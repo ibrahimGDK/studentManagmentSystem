@@ -11,6 +11,5 @@ public abstract class CourseManagement {
         return courses;
     }
 
-    public abstract void manageCourses();
 }
 

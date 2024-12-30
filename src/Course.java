@@ -1,4 +1,4 @@
-public class Course {
+public  class Course extends CourseManagement {
     private String courseName;
     private String courseCode; // Ders Kodu
     private boolean isApproved;
