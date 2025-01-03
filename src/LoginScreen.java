@@ -15,7 +15,7 @@ public class LoginScreen {
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setLocationRelativeTo(null); // Ekranın ortasına konumlandırma
+        frame.setLocationRelativeTo(null); // Ekranın ortasında gözükmesi için
 
         // Üst başlık paneli
         JPanel titlePanel = new JPanel();
@@ -28,7 +28,7 @@ public class LoginScreen {
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Bileşenler arasındaki boşluklar
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         JLabel usernameLabel = new JLabel("Kullanıcı Adı:");
         usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -70,14 +70,14 @@ public class LoginScreen {
 
         frame.add(formPanel, BorderLayout.CENTER);
 
-        // Alt buton paneli
+
         JPanel buttonPanel = new JPanel();
         loginButton = new JButton("Giriş Yap");
         loginButton.setFont(new Font("Arial", Font.BOLD, 14));
         buttonPanel.add(loginButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Buton eylemi
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,12 +90,12 @@ public class LoginScreen {
         frame.setVisible(true);
     }
 
-    // Login logic
+    // Giriş yapıyoruz
     private void login(String username, String password) {
         if (Database.isValidUser(username, password)) {
             User user = Database.getUser(username);
             openDashboard(user);
-            //frame.dispose(); // Login ekranını kapat
+            //frame.dispose();
         } else {
             errorLabel.setText("Geçersiz kullanıcı adı veya şifre!");
         }

@@ -3,7 +3,7 @@ public abstract class User implements UserActions {
     private String password;
     private String role;  // Kullanıcı türünü tanımlayan rol
 
-    // Constructor
+
     public User(String username, String password, String role) {
         this.username = username;
         this.password = password;

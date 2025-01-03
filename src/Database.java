@@ -15,7 +15,7 @@ public class Database {
         userCredentials.put("ogretim1", "password456");
         userCredentials.put("personel1", "password789");
 
-        // Kullanıcı bilgilerini oluşturuyoruz (Gerçek projede bu veriler bir veritabanından alınacaktır)
+        // Kullanıcı bilgilerini oluşturuyoruz
         users.put("ogrenci1", new Student("ogrenci1", "password123"));
         users.put("ogretim1", new Faculty("ogretim1", "password456"));
         users.put("personel1", new Staff("personel1", "password789"));
@@ -31,13 +31,13 @@ public class Database {
         return courseList;
     }
 
-    // Kullanıcı doğrulama işlemi: Kullanıcı adı ve şifreyi kontrol eder
+    // Login sırasında bu metodla doğrulama yapıyoruz
     public static boolean isValidUser(String username, String password) {
-        // Kullanıcı adı var mı ve şifre doğru mu kontrol et
+
         return userCredentials.containsKey(username) && userCredentials.get(username).equals(password);
     }
 
-    // Kullanıcıyı döndürme işlemi: Kullanıcı adıyla ilişkili kullanıcıyı alır
+    // Kullanıcıyı döndürme işlemi
     public static User getUser(String username) {
         return users.get(username);  // Burada kullanıcı tipine göre User (Öğrenci, Öğretim Üyesi, Personel) döndürülür.
     }
@@ -46,9 +46,9 @@ public class Database {
     public static Student getStudentByUsername(String username) {
         User user = users.get(username);
         if (user instanceof Student) {
-            return (Student) user;  // Eğer kullanıcı bir öğrenci ise, geri döndür
+            return (Student) user;
         }
-        return null;  // Öğrenci bulunamadıysa null döndür
+        return null;
     }
 
     // Öğrencileri alma işlemi
@@ -71,7 +71,7 @@ public class Database {
         // Yeni öğrenci oluşturuluyor ve kullanıcı listesine ekleniyor
         Student newStudent = new Student(username, password);
         users.put(username, newStudent);
-        userCredentials.put(username, password);  // Şifre de ekleniyor
+        userCredentials.put(username, password);
         return true;
     }
 
@@ -84,7 +84,7 @@ public class Database {
         // Öğrenci veritabanından siliniyor
         userCredentials.remove(username);
         users.remove(username);
-        return true;  // Silme başarılı
+        return true;
     }
 
 }

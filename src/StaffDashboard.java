@@ -19,7 +19,7 @@ public class StaffDashboard {
 
         // Başlık Paneli
         JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(70, 130, 180)); // SteelBlue renk
+        titlePanel.setBackground(new Color(70, 130, 180));
         JLabel titleLabel = new JLabel("Personel Paneli");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);

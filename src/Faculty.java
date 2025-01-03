@@ -21,11 +21,12 @@ public class Faculty extends User implements CourseActions {
     @Override
     public void approveCourse(String courseName) {
         // Bu metot, öğretim üyesinin ders onaylamasını sağlayacak
+        //bu metodu da facultyDashboad da oluşturduk zaten
     }
 
     // Öğretim üyesinin bir öğrencinin dersini onaylama işlemi
     public void approveCourse(Student student, String courseName) {
-        ArrayList<Course> courses = student.getSelectedCourses(); // Öğrencinin seçtiği dersleri al
+        ArrayList<Course> courses = student.getSelectedCourses();
         for (Course course : courses) {
             if (course.getCourseName().equals(courseName)) {
                 course.approve(); // Onayla
@@ -38,7 +39,8 @@ public class Faculty extends User implements CourseActions {
 
     @Override
     public void login(String username, String password) {
-        // Öğretim üyelerinin login işlemi (gerektiğinde implemente edilebilir)
+        // Öğretim üyelerinin login işlemi
+        //bu methodu login screen de doldurduk
     }
 
     @Override
@@ -58,7 +60,6 @@ public class Faculty extends User implements CourseActions {
     // Öğretim üyesinin dersleri görüntüleme işlemi
     public void viewCourses() {
         System.out.println("Öğretim üyesinin derslerini görüntülüyor...");
-        // Burada öğretim üyesinin derslerini görme işlemi yapılacak
     }
 
     public ArrayList<Course> getCourses() {

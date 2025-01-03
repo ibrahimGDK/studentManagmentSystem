@@ -14,14 +14,14 @@ public class FacultyDashboard {
 
         // Çerçeveyi oluştur ve ayarla
         frame = new JFrame(faculty.getUsername() + " - Öğretim Üyesi Paneli");
-        frame.setSize(600, 400);  // Ekran boyutunu büyüttük
+        frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);  // Ortaya yerleştir
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         // Başlık Paneli
         JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(70, 130, 180));  // SteelBlue
+        titlePanel.setBackground(new Color(70, 130, 180));
         JLabel titleLabel = new JLabel("Öğretim Üyesi Paneli");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
@@ -32,7 +32,7 @@ public class FacultyDashboard {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));  // Kenar boşlukları
-        mainPanel.setBackground(new Color(240, 248, 255));  // AliceBlue arka plan rengi
+        mainPanel.setBackground(new Color(240, 248, 255));
 
         // GridBagConstraints ile butonları hizalayacağız
         GridBagConstraints gbc = new GridBagConstraints();
@@ -60,7 +60,7 @@ public class FacultyDashboard {
         JButton addGradeButton = createStyledButton("Not Ekle");
         mainPanel.add(addGradeButton, gbc);
 
-        // Buton Olayları
+
         approveCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,11 +93,11 @@ public class FacultyDashboard {
         frame.setVisible(true);
     }
 
-    // Butonları stilize eden yardımcı metod
+
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setBackground(new Color(100, 149, 237));  // CornflowerBlue
+        button.setBackground(new Color(100, 149, 237));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         return button;
@@ -157,7 +157,7 @@ public class FacultyDashboard {
 
         courseInfoArea.setText(courseInfo.toString());
 
-        // Ders bilgilerini bir JScrollPane içinde göster
+        // Ders bilgilerini bir JScrollPane ile gösteriyoruz
         JScrollPane scrollPane = new JScrollPane(courseInfoArea);
         scrollPane.setPreferredSize(new Dimension(350, 200));
 
@@ -170,16 +170,15 @@ public class FacultyDashboard {
     }
 
     private void viewProfile() {
-        // Öğretim üyesinin profilini görüntüler
+
         String profileInfo = "Kullanıcı Adı: " + faculty.getUsername() + "\n" +
                 "Rol: " + faculty.getRole();
 
-        // Profil bilgilerini JOptionPane ile göster
         JOptionPane.showMessageDialog(frame, profileInfo, "Profil Bilgileri", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void addGrade() {
-        // Öğrenci adı iste
+        // Not eklemek için öğrenci adı
         String studentUsername = JOptionPane.showInputDialog(frame, "Not eklemek istediğiniz öğrencinin kullanıcı adını girin:");
         if (studentUsername == null || studentUsername.trim().isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Geçersiz kullanıcı adı!", "Hata", JOptionPane.ERROR_MESSAGE);

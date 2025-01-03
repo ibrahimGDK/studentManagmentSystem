@@ -15,27 +15,27 @@ public class StudentDashboard {
 
         // Çerçeveyi oluştur ve ayarla
         frame = new JFrame(student.getUsername() + " - Öğrenci Paneli");
-        frame.setSize(600, 400);  // Ekran boyutunu büyüttük
-        frame.setLocationRelativeTo(null);  // Ortaya yerleştir
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Başlık Paneli
+
         JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(70, 130, 180));  // SteelBlue
+        titlePanel.setBackground(new Color(70, 130, 180));
         JLabel titleLabel = new JLabel("Öğrenci Paneli");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titlePanel.add(titleLabel);
         frame.add(titlePanel, BorderLayout.NORTH);
 
-        // Ana Panel
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));  // Kenar boşlukları
-        mainPanel.setBackground(new Color(240, 248, 255));  // AliceBlue arka plan rengi
+        mainPanel.setBackground(new Color(240, 248, 255));
 
-        // GridBagConstraints ile butonları hizalayacağız
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Bileşenler arası boşluk
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -61,7 +61,7 @@ public class StudentDashboard {
         JButton viewSelectedCoursesButton = createStyledButton("Seçilen Dersleri Görüntüle");
         mainPanel.add(viewSelectedCoursesButton, gbc);
 
-        // Buton Olayları
+
         selectCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,11 +94,11 @@ public class StudentDashboard {
         frame.setVisible(true);
     }
 
-    // Butonları stilize eden yardımcı metod
+
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setBackground(new Color(100, 149, 237));  // CornflowerBlue
+        button.setBackground(new Color(100, 149, 237));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         return button;
@@ -122,7 +122,7 @@ public class StudentDashboard {
     }
 
     private void selectCourse() {
-        // Mevcut dersleri getir
+
         List<Course> courses = Database.getCourseList();
 
         if (courses.isEmpty()) {

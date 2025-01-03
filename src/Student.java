@@ -17,7 +17,7 @@ public class Student extends User {
 
     @Override
     public void login(String username, String password) {
-        // Giriş işlemi, gerekirse doldurulabilir
+        //
     }
 
     @Override
@@ -48,12 +48,12 @@ public class Student extends User {
         return grades;
     }
 
-    // Seçilen dersleri döndüren metot
+    // Seçilen dersleri getiriyor
     public ArrayList<Course> getSelectedCourses() {
         return selectedCourses;
     }
 
-    // Not ekleme metodu (İlgili derse not eklemek için)
+    // Not ekleme metodu
     public void addGrade(String courseName, int grade) {
         grades.put(courseName, grade);
         System.out.println(courseName + " dersine not eklenmiştir: " + grade);

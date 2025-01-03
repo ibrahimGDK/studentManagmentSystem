@@ -1,16 +1,16 @@
 public  class Course extends CourseManagement {
     private String courseName;
-    private String courseCode; // Ders Kodu
+    private String courseCode;
     private boolean isApproved;
 
-    // Constructor
+
     public Course(String courseName, String courseCode) {
         this.courseName = courseName;
         this.courseCode = courseCode;
         this.isApproved = false;
     }
 
-    // Getter'lar
+
     public String getCourseName() {
         return courseName;
     }
@@ -26,7 +26,7 @@ public  class Course extends CourseManagement {
 
     // Dersin onaylanması
     public void approve() {
-        isApproved = true; // onaylama işlemi burada yapılabilir
+        isApproved = true; // onaylama işlemi ile dersi onayladık
     }
 
     // Dersin detaylarını gösteren metot
